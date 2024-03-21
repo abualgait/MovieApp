@@ -5,6 +5,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.muhammadsayed.common.util.Screen
+import com.muhammadsayed.movies.presentation.navigation.moviesScreen
 
 private const val TRANSITION_DURATION = 400
 
@@ -13,7 +15,7 @@ fun NavGraph(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeScreen.route,
+        startDestination = Screen.MoviesScreen.route,
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
@@ -26,7 +28,7 @@ fun NavGraph(navController: NavHostController) {
             )
         }
     ) {
-
+        moviesScreen(navController)
     }
 }
 

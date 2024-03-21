@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/design" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/movies" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/network" />
           </set>

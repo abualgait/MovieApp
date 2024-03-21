@@ -40,6 +40,8 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:movies"))
+    implementation(project(":common"))
     implementation(libs.navigation.compose)
 
     testImplementation(libs.junit)

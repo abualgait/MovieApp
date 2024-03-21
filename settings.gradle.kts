@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
         google {
@@ -27,3 +29,4 @@ include(":design")
 include(":common")
 include(":network")
 include(":feature")
+include(":feature:movies")
