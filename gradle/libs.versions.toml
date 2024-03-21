@@ -40,6 +40,8 @@ paging = "3.2.1"
 paging-compose = "3.2.1"
 coil-version = "2.5.0"
 
+lifecycle-version = "2.7.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
@@ -76,6 +78,7 @@ paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pag
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-version" }
+lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-version" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

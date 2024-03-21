@@ -4,10 +4,13 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.muhammadsayed.movies.data.model.Result
 import com.muhammadsayed.movies.data.remote.MoviesService
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 class MovieDataSource(
     private val apiService: MoviesService,
-    ) : PagingSource<Int, Result>() {
+    private val defaultDispatcher: CoroutineDispatcher,
+) : PagingSource<Int, Result>() {
 
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
@@ -15,14 +18,14 @@ class MovieDataSource(
         val prevKey = if (page == 1) null else page - 1
         val nextKey = page + 1
         return try {
-
-            val response = apiService.getListOfTrendingMovies(page = page)
-            LoadResult.Page(
-                data = response.results,
-                nextKey = nextKey,
-                prevKey = prevKey
-            )
-
+            withContext(defaultDispatcher) {
+                val response = apiService.getListOfTrendingMovies(page = page)
+                LoadResult.Page(
+                    data = response.results,
+                    nextKey = nextKey,
+                    prevKey = prevKey
+                )
+            }
 
         } catch (e: Exception) {
             return LoadResult.Error(e)

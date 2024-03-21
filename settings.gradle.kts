@@ -30,3 +30,5 @@ include(":common")
 include(":network")
 include(":feature")
 include(":feature:movies")
+include(":feature:moviedetails")
+

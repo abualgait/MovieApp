@@ -2,6 +2,7 @@ package com.muhammadsayed.movies.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -41,7 +46,9 @@ import com.muhammadsayed.common.util.Constants
 import com.muhammadsayed.design.components.CircularProgress
 import com.muhammadsayed.design.components.ErrorDialog
 import com.muhammadsayed.design.components.LoadingPage
+import com.muhammadsayed.design.theme.YassirMovieAppTheme
 import com.muhammadsayed.movies.domain.model.MovieUIModel
+import com.muhammadsayed.movies.extentions.rememberLazyListState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,7 +61,8 @@ fun MoviesContent(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
+        trendingPagingItem.rememberLazyListState()
     ) {
 
         stickyHeader {
@@ -137,16 +145,27 @@ fun TrendingMovieItem(
             shape = RoundedCornerShape(10.dp),
             elevation = CardDefaults.cardElevation(1.dp),
         ) {
-            SubcomposeAsyncImage(
-                modifier = Modifier
-                    .fillMaxSize(),
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("${Constants.IMAGE_BASE_URL}/w300/${movie.image}")
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Trending Movie Image",
-                contentScale = ContentScale.Crop
-            )
+            if (LocalInspectionMode.current) {
+                Image(
+                    imageVector = Icons.Default.Favorite,
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentDescription = "Trending Movie Image",
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                SubcomposeAsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("${Constants.IMAGE_BASE_URL}/w300/${movie.image}")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "Trending Movie Image",
+                    contentScale = ContentScale.Crop
+                )
+            }
+
         }
 
         Spacer(modifier = Modifier.size(10.dp))
@@ -168,4 +187,15 @@ fun TrendingMovieItem(
         }
     }
 
+}
+
+@Preview
+@Composable
+private fun TrendingMovieItemPrev() {
+    val movieUIModel = MovieUIModel(1, "Movie", "", "2024")
+    YassirMovieAppTheme {
+        TrendingMovieItem(movieUIModel) {
+
+        }
+    }
 }

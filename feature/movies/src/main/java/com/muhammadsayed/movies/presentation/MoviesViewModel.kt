@@ -3,6 +3,7 @@ package com.muhammadsayed.movies.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.muhammadsayed.movies.data.mapper.toDomainModel
 import com.muhammadsayed.movies.domain.model.MovieUIModel
@@ -42,7 +43,7 @@ class MoviesViewModel @Inject constructor(
     }
 
     private fun getTrendingMovies() {
-        moviesUseCases.getTrendingMoviesUseCase().onEach {
+        moviesUseCases.getTrendingMoviesUseCase().cachedIn(viewModelScope).onEach {
             _state.value = it.map { movie -> movie.toDomainModel() }
         }.launchIn(viewModelScope)
     }

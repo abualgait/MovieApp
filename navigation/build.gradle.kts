@@ -41,6 +41,7 @@ android {
 dependencies {
 
     implementation(project(":feature:movies"))
+    implementation(project(":feature:moviedetails"))
     implementation(project(":common"))
     implementation(libs.navigation.compose)
 
