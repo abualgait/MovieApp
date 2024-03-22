@@ -79,4 +79,18 @@ dependencies {
     implementation (libs.coil.compose)
     implementation (libs.lifecycle.compose)
 
+    // Local unit tests
+    val okHttp = "4.12.0"
+    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+    testImplementation("com.google.truth:truth:1.1.4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.3")
+    testImplementation("com.squareup.okhttp3:mockwebserver:${okHttp}")
+    testImplementation("com.squareup.okhttp3:okhttp:${okHttp}")
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("androidx.test.ext:junit:1.1.5")
+    testImplementation ("app.cash.turbine:turbine:1.0.0")
+
 }

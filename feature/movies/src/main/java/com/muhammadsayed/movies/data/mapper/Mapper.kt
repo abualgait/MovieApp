@@ -4,7 +4,7 @@ import com.muhammadsayed.movies.data.model.Result
 import com.muhammadsayed.movies.domain.model.MovieUIModel
 
 
-fun Result.toDomainModel(): MovieUIModel {
+fun Result.toMovieUiModel(): MovieUIModel {
     return MovieUIModel(
         id = id,
         title = title,

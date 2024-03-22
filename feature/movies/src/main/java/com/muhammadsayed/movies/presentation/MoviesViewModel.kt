@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.muhammadsayed.movies.data.mapper.toDomainModel
+import com.muhammadsayed.movies.data.mapper.toMovieUiModel
 import com.muhammadsayed.movies.domain.model.MovieUIModel
 import com.muhammadsayed.movies.domain.usecase.MoviesUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +33,7 @@ class MoviesViewModel @Inject constructor(
         onEvent(MoviesUiEvents.GetTrendingMovies)
     }
 
-    private fun onEvent(event: MoviesUiEvents) {
+      fun onEvent(event: MoviesUiEvents) {
         when (event) {
             MoviesUiEvents.GetTrendingMovies -> {
                 getTrendingMovies()
@@ -44,7 +44,7 @@ class MoviesViewModel @Inject constructor(
 
     private fun getTrendingMovies() {
         moviesUseCases.getTrendingMoviesUseCase().cachedIn(viewModelScope).onEach {
-            _state.value = it.map { movie -> movie.toDomainModel() }
+            _state.value = it.map { movie -> movie.toMovieUiModel() }
         }.launchIn(viewModelScope)
     }
 
