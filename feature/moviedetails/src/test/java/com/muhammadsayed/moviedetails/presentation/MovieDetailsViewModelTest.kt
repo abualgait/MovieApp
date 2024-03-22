@@ -1,5 +1,6 @@
 package com.muhammadsayed.moviedetails.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.muhammadsayed.common.Response
@@ -37,6 +38,8 @@ class MoviesViewModelTest {
 
     val MOVIE_ID = 1
 
+    val savedStateHandle: SavedStateHandle = SavedStateHandle()
+
     @Before
     fun setUp() {
 
@@ -44,7 +47,7 @@ class MoviesViewModelTest {
             useCases.getMovieDetailsUseCase
         } returns GetMovieDetailsUseCase(movieDetailsRepository, StandardTestDispatcher())
 
-        sut = MovieDetailsViewModel(useCases)
+        sut = MovieDetailsViewModel(useCases, savedStateHandle)
 
     }
 

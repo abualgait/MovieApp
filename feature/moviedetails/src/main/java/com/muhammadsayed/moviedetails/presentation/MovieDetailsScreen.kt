@@ -1,7 +1,6 @@
 package com.muhammadsayed.moviedetails.presentation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -12,10 +11,6 @@ fun MovieDetailsScreen(movieId: Int, onNavigateBack: () -> Unit) {
 
     val viewModel: MovieDetailsViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.onEvent(MovieDetailsEvents.GetMovieDetails(movieId))
-    }
 
     MovieDetailsContent(
         state = state,

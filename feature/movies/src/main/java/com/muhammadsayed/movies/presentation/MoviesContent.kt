@@ -80,7 +80,7 @@ fun MoviesContent(
         items(
             count = trendingPagingItem.itemCount,
             key = {
-                trendingPagingItem[it]?.id ?: -1
+                "${trendingPagingItem[it]?.id}" + "${trendingPagingItem[it]?.title}"
             }) {
             trendingPagingItem[it]?.let { movie ->
                 TrendingMovieItem(

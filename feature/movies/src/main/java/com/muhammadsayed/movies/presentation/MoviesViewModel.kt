@@ -33,7 +33,7 @@ class MoviesViewModel @Inject constructor(
         onEvent(MoviesUiEvents.GetTrendingMovies)
     }
 
-      fun onEvent(event: MoviesUiEvents) {
+    private fun onEvent(event: MoviesUiEvents) {
         when (event) {
             MoviesUiEvents.GetTrendingMovies -> {
                 getTrendingMovies()

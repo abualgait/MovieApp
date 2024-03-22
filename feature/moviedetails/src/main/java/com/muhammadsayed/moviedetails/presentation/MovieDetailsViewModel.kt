@@ -1,8 +1,10 @@
 package com.muhammadsayed.moviedetails.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muhammadsayed.common.Response
+import com.muhammadsayed.common.util.Constants.MOVIE_ID
 import com.muhammadsayed.moviedetails.domain.model.MovieDetailsUiModel
 import com.muhammadsayed.moviedetails.domain.usecase.MovieDetailsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val movieDetailsUseCases: MovieDetailsUseCases
+    private val movieDetailsUseCases: MovieDetailsUseCases,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<Response<MovieDetailsUiModel>>(Response.Loading)
@@ -26,6 +29,13 @@ class MovieDetailsViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(),
         initialValue = Response.Loading,
     )
+
+    init {
+        savedStateHandle.get<Int>(MOVIE_ID)?.let {
+            onEvent(MovieDetailsEvents.GetMovieDetails(it))
+        }
+
+    }
 
     fun onEvent(event: MovieDetailsEvents) {
         when (event) {
