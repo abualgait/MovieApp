@@ -2,7 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="MovieDetailsScreenTest">
+        <State />
+      </entry>
+      <entry key="MoviesScreenTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testCustomSwitch()">
         <State />
       </entry>
     </value>

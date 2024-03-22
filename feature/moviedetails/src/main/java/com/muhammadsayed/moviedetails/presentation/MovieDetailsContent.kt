@@ -136,7 +136,7 @@ fun MovieDetails(
 
         ) {
             Icon(
-                Icons.AutoMirrored.Filled.ArrowBack, "Back Button", tint = Color.White
+                Icons.AutoMirrored.Filled.ArrowBack, "Back Button", tint = MaterialTheme.colorScheme.primary
             )
         }
 
