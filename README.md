@@ -20,7 +20,8 @@ Welcome to the MovieApp repository! This Android project is a showcase of cuttin
 - 🚀 **Kotlin** 
 - 🗄️ **Coroutines & Flow**
 - 🚀 **Moshi**
-- 🌙 **Dark/Light Theme** 
+- 🌙 **Dark/Light Theme**
+- 🧪 **Unit Testing**  
  
 
 ## Connect with Me 🌐
