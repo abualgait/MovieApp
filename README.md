@@ -1,4 +1,4 @@
-![Group 5359](https://github.com/abualgait/YassirMovieApp/assets/38107393/323e826c-342a-4452-9a12-7e5d05169b57)
+![Group 5359](https://github.com/abualgait/YassirMovieApp/assets/38107393/5bbef78b-a862-4600-8e4e-233c1c72e30b)
 
 
 # MovieApp 🎥
