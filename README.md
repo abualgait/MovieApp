@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/binaryshrey/dice/android_build.yml)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
+[![Android CI](https://github.com/abualgait/YassirMovieApp/actions/workflows/android-ci.yml/badge.svg?branch=master)](https://github.com/abualgait/YassirMovieApp/actions/workflows/android-ci.yml)
 
 ## Overview 🚀
  
