@@ -119,37 +119,35 @@ fun MoviesContent(
                     }
                 }
 
-                trendingPagingItem.apply {
-                    when {
-                        loadState.refresh is LoadState.Loading -> {
-                            item { LoadingPage(modifier = Modifier.fillParentMaxSize()) }
-                        }
+            }
+        }
 
-                        loadState.refresh is LoadState.Error -> {
-                            val error = trendingPagingItem.loadState.refresh as LoadState.Error
-                            item {
-                                AnimatedVisibility(visible = showDialog) {
-                                    ErrorDialog(errorMessage = error.error.localizedMessage!!,
-                                        onRetryClick = { retry() },
-                                        onDismiss = { showDialog = false })
-                                }
+        trendingPagingItem.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    LoadingPage(modifier = Modifier.fillMaxSize())
+                }
 
-                            }
-                        }
-
-                        loadState.append is LoadState.Loading -> {
-                            item {
-                                Box(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 10.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    CircularProgress(true)
-                                }
-                            }
-                        }
+                loadState.refresh is LoadState.Error -> {
+                    val error = trendingPagingItem.loadState.refresh as LoadState.Error
+                    AnimatedVisibility(visible = showDialog) {
+                        ErrorDialog(errorMessage = error.error.localizedMessage!!,
+                            onRetryClick = { retry() },
+                            onDismiss = { showDialog = false })
                     }
+
+                }
+
+                loadState.append is LoadState.Loading -> {
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgress(true)
+                    }
+
                 }
             }
         }
