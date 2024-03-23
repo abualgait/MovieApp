@@ -37,8 +37,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -172,9 +172,10 @@ fun ScrollToTopButton(onClick: () -> Unit) {
             .padding(16.dp)
             .background(
                 shape = CircleShape,
-                color = Color.White
+                color = MaterialTheme.colorScheme.background
             )
             .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape)
+            .clip(CircleShape)
             .clickable {
                 onClick()
             }

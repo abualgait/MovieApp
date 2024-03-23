@@ -11,6 +11,7 @@ fun MovieDetail.toMovieDetailUi(): MovieDetailsUiModel {
         overview = overview,
         releaseDate = releaseDate,
         title = title,
-        status = status
+        status = status,
+        genres = genres
     )
 }

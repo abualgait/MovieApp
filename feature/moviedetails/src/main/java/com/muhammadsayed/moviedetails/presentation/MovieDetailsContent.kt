@@ -5,10 +5,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,17 +29,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.SubcomposeAsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import coil.size.Size
 import com.muhammadsayed.common.Response
 import com.muhammadsayed.common.extensions.getYearFromDate
 import com.muhammadsayed.common.util.Constants
+import com.muhammadsayed.design.components.AppChip
+import com.muhammadsayed.design.components.CircularProgress
 import com.muhammadsayed.design.components.ErrorDialog
 import com.muhammadsayed.design.components.LoadingPage
 import com.muhammadsayed.moviedetails.domain.model.MovieDetailsUiModel
@@ -73,6 +81,7 @@ fun MovieDetailsContent(
 }
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MovieDetails(
     movie: MovieDetailsUiModel,
@@ -80,20 +89,35 @@ fun MovieDetails(
 ) {
     Box {
 
-
         LazyColumn(modifier = Modifier) {
             item {
-                SubcomposeAsyncImage(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(250.dp),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data("${Constants.IMAGE_BASE_URL}/w500/${movie.backDropPath}")
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = "Movie Image",
-                    contentScale = ContentScale.Crop
-                )
+                        .height(300.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    val painter = rememberAsyncImagePainter(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data("${Constants.IMAGE_BASE_URL}/w500/${movie.backDropPath}")
+                            .size(Size.ORIGINAL) // Set the target size to load the image at.
+                            .crossfade(true)
+                            .build()
+                    )
+                    if (painter.state is AsyncImagePainter.State.Loading) {
+                        CircularProgress(true)
+                    } else {
+                        Image(
+                            modifier = Modifier.fillMaxSize(),
+                            painter = painter,
+                            contentDescription = "Movie Image",
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+
+                }
+
                 Spacer(modifier = Modifier.size(10.dp))
             }
 
@@ -114,6 +138,15 @@ fun MovieDetails(
                         fontWeight = FontWeight.Medium
                     )
                     Spacer(modifier = Modifier.size(10.dp))
+
+                    FlowRow {
+                        movie.genres.forEach { genre ->
+                            AppChip(genre.name) {
+
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.size(10.dp))
                     Text(
                         text = movie.overview.getYearFromDate() ?: "",
                         fontSize = 14.sp,
@@ -127,7 +160,9 @@ fun MovieDetails(
         Box(
             modifier = Modifier
                 .padding(16.dp)
-                .background(shape = CircleShape, color = Color.Black.copy(alpha = 0.1f))
+                .background(shape = CircleShape, color = MaterialTheme.colorScheme.background)
+                .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                .clip(CircleShape)
                 .clickable {
                     onNavigateBack()
                 }
@@ -136,7 +171,9 @@ fun MovieDetails(
 
         ) {
             Icon(
-                Icons.AutoMirrored.Filled.ArrowBack, "Back Button", tint = MaterialTheme.colorScheme.primary
+                Icons.AutoMirrored.Filled.ArrowBack,
+                "Back Button",
+                tint = MaterialTheme.colorScheme.primary
             )
         }
 
