@@ -41,6 +41,7 @@ paging-compose = "3.2.1"
 coil-version = "2.5.0"
 
 lifecycle-version = "2.7.0"
+uiTooling = "1.6.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -79,6 +80,7 @@ paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pag
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-version" }
 lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-version" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
