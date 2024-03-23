@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hilt)
     alias(libs.plugins.jetbrainsKotlinKapt)
+    alias(libs.plugins.secrets)
+
 }
 
 android {
@@ -50,6 +52,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+secrets {
+    defaultPropertiesFileName = "local.defaults.properties"
 }
 
 dependencies {
