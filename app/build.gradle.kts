@@ -16,7 +16,7 @@ android {
         versionCode = libs.versions.appVersionCode.get().toInt()
         versionName = libs.versions.appVersionName.get()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.muhammadsayed.yassirmovieapp.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -71,10 +71,27 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(project(":feature:movies"))
+    implementation(project(":feature:moviedetails"))
     implementation(project(":navigation"))
     implementation(project(":design"))
+    implementation(project(":common"))
 
+    // Paging 3
+    implementation (libs.paging.runtime)
+    implementation (libs.paging.compose)
 
+    // Instrumentation tests
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.android.compiler)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.core.ktx)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.mockwebserver)
+    androidTestImplementation(libs.okhttp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

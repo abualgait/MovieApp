@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,8 +41,11 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.muhammadsayed.common.Response
-import com.muhammadsayed.common.extensions.getYearFromDate
 import com.muhammadsayed.common.util.Constants
+import com.muhammadsayed.common.util.TestTag
+import com.muhammadsayed.common.util.TestTag.DetailsList
+import com.muhammadsayed.common.util.TestTag.DetailsMovieGenres
+import com.muhammadsayed.common.util.TestTag.DetailsMovieImage
 import com.muhammadsayed.design.components.AppChip
 import com.muhammadsayed.design.components.CircularProgress
 import com.muhammadsayed.design.components.ErrorDialog
@@ -70,12 +74,18 @@ fun MovieDetailsContent(
             }
 
             Response.Loading -> {
-                LoadingPage(modifier = Modifier.fillMaxSize())
+                LoadingPage(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .testTag(TestTag.DetailsLoading)
+                )
             }
 
             is Response.Success -> MovieDetails(it.data) {
                 onNavigateBack()
             }
+
+            else -> {}
         }
     }
 }
@@ -89,11 +99,12 @@ fun MovieDetails(
 ) {
     Box {
 
-        LazyColumn(modifier = Modifier) {
+        LazyColumn(modifier = Modifier.testTag(DetailsList)) {
             item {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .testTag(DetailsMovieImage)
                         .height(300.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -139,7 +150,7 @@ fun MovieDetails(
                     )
                     Spacer(modifier = Modifier.size(10.dp))
 
-                    FlowRow {
+                    FlowRow(modifier = Modifier.testTag(DetailsMovieGenres)) {
                         movie.genres.forEach { genre ->
                             AppChip(genre.name) {
 
@@ -148,7 +159,7 @@ fun MovieDetails(
                     }
                     Spacer(modifier = Modifier.size(10.dp))
                     Text(
-                        text = movie.overview.getYearFromDate() ?: "",
+                        text = movie.overview,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                         fontWeight = FontWeight.Medium
@@ -168,6 +179,7 @@ fun MovieDetails(
                 }
                 .padding(5.dp)
                 .align(Alignment.TopStart)
+                .testTag(TestTag.BackIcon)
 
         ) {
             Icon(

@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,6 +54,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.muhammadsayed.common.extensions.getYearFromDate
 import com.muhammadsayed.common.util.Constants
+import com.muhammadsayed.common.util.TestTag
 import com.muhammadsayed.design.components.CircularProgress
 import com.muhammadsayed.design.components.ErrorDialog
 import com.muhammadsayed.design.components.LoadingPage
@@ -91,7 +93,8 @@ fun MoviesContent(
         if (trendingPagingItem.itemCount != 0) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .testTag(TestTag.MoviesTrending),
                 state = listState
             ) {
 
@@ -199,7 +202,8 @@ fun TrendingMovieItem(
         .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
         .clickable {
             onNavigateDetailScreen(movie.id.toString())
-        }) {
+        }
+        .testTag(TestTag.MoviesClickRow)) {
         MovieImage(movie)
         Spacer(modifier = Modifier.size(10.dp))
 
