@@ -25,10 +25,14 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -62,7 +67,7 @@ import com.muhammadsayed.design.theme.YassirMovieAppTheme
 import com.muhammadsayed.movies.domain.model.MovieUIModel
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesContent(
     trendingPagingItem: LazyPagingItems<MovieUIModel>, onNavigateDetailScreen: (String) -> Unit
@@ -79,10 +84,30 @@ fun MoviesContent(
 
     val scope = rememberCoroutineScope()
 
+    val pullToRefreshState = rememberPullToRefreshState()
+
+    var isRefreshing by remember {
+        mutableStateOf(false)
+    }
+    if (pullToRefreshState.isRefreshing) {
+        LaunchedEffect(Unit) {
+            isRefreshing = true
+            trendingPagingItem.refresh()
+        }
+    }
+    LaunchedEffect(isRefreshing) {
+        if (isRefreshing) {
+            pullToRefreshState.startRefresh()
+        } else {
+            pullToRefreshState.endRefresh()
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background)
+            .nestedScroll(pullToRefreshState.nestedScrollConnection),
     ) {
         /**
          * workaround if condition, to save the scroll position when back from movie details.
@@ -112,7 +137,7 @@ fun MoviesContent(
                 }
 
                 items(count = trendingPagingItem.itemCount, key = {
-                    "${trendingPagingItem[it]?.id}" + "${trendingPagingItem[it]?.title}"
+                    trendingPagingItem.peek(it)?.id ?: -1
                 }) {
                     trendingPagingItem[it]?.let { movie ->
                         TrendingMovieItem(
@@ -131,7 +156,12 @@ fun MoviesContent(
                     LoadingPage(modifier = Modifier.fillMaxSize())
                 }
 
+                loadState.refresh is LoadState.NotLoading -> {
+                    isRefreshing = false
+                }
+
                 loadState.refresh is LoadState.Error -> {
+                    pullToRefreshState.endRefresh()
                     val error = trendingPagingItem.loadState.refresh as LoadState.Error
                     AnimatedVisibility(visible = showDialog) {
                         ErrorDialog(errorMessage = error.error.localizedMessage!!,
@@ -162,6 +192,13 @@ fun MoviesContent(
                 }
             }
         }
+        PullToRefreshContainer(
+            state = pullToRefreshState,
+            modifier = Modifier
+                .align(Alignment.TopCenter),
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            contentColor = MaterialTheme.colorScheme.primary
+        )
     }
 
 }
