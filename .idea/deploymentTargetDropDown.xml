@@ -2,16 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="MovieDetailsScreenTest">
-        <State />
-      </entry>
-      <entry key="MoviesScreenTest">
+      <entry key="MovieDetailsScreensTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="testCustomSwitch()">
+      <entry key="testNavigationToMovieWithId123456Details()">
+        <State />
+      </entry>
+      <entry key="testNavigationToMovieWithId123456DetailsAndDisplayInfo()">
+        <State />
+      </entry>
+      <entry key="testNavigationToMovieWithId123456DetailsAndGoBack()">
         <State />
       </entry>
     </value>

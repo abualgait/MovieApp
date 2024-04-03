@@ -36,7 +36,7 @@ object UseCaseModuleTest {
         return MovieDetailsUseCases(
             getMovieDetailsUseCase = GetMovieDetailsUseCase(
                 movieDetailsRepository = FakeMovieDetailsRepository(),
-                defaultDispatcher = UnconfinedTestDispatcher()
+                coroutineDispatcher = UnconfinedTestDispatcher()
             )
         )
     }

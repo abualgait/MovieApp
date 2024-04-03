@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.flowOn
 
 class GetMovieDetailsUseCase(
     private val movieDetailsRepository: MovieDetailsRepository,
-    private val defaultDispatcher: CoroutineDispatcher,
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) {
     suspend operator fun invoke(movieId: Int): Flow<Response<MovieDetailsUiModel>> {
-        return movieDetailsRepository.getMovieDetailsById(movieId).flowOn(defaultDispatcher)
+        return movieDetailsRepository.getMovieDetailsById(movieId).flowOn(coroutineDispatcher)
     }
 }

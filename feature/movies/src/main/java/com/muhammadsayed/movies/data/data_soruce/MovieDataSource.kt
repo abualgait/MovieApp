@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 class MovieDataSource(
     private val apiService: MoviesService,
-    private val defaultDispatcher: CoroutineDispatcher,
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) : PagingSource<Int, Result>() {
 
 
@@ -18,7 +18,7 @@ class MovieDataSource(
         val prevKey = if (page == 1) null else page - 1
         val nextKey = page + 1
         return try {
-            withContext(defaultDispatcher) {
+            withContext(coroutineDispatcher) {
                 val response = apiService.getListOfTrendingMovies(page = page)
                 LoadResult.Page(
                     data = response.results,

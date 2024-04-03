@@ -1,6 +1,6 @@
 package com.muhammadsayed.movies.di
 
-import com.muhammadsayed.common.di.DefaultDispatcher
+import com.muhammadsayed.common.di.IoDispatcher
 import com.muhammadsayed.movies.data.remote.MoviesService
 import com.muhammadsayed.movies.data.repository.MovieRepositoryImpl
 import com.muhammadsayed.movies.domain.repository.MovieRepository
@@ -19,11 +19,11 @@ object RepositoryModule {
     @Singleton
     fun provideMovieRepository(
         moviesService: MoviesService,
-        @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
+        @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): MovieRepository {
         return MovieRepositoryImpl(
             apiService = moviesService,
-            defaultDispatcher = defaultDispatcher
+            coroutineDispatcher = coroutineDispatcher
         )
     }
 

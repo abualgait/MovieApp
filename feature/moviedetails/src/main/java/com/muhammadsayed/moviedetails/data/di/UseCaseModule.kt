@@ -1,6 +1,6 @@
 package com.muhammadsayed.moviedetails.data.di
 
-import com.muhammadsayed.common.di.DefaultDispatcher
+import com.muhammadsayed.common.di.IoDispatcher
 import com.muhammadsayed.moviedetails.domain.repository.MovieDetailsRepository
 import com.muhammadsayed.moviedetails.domain.usecase.GetMovieDetailsUseCase
 import com.muhammadsayed.moviedetails.domain.usecase.MovieDetailsUseCases
@@ -18,11 +18,11 @@ object UseCaseModule {
     @Singleton
     fun provideMovieDetailsUseCases(
         movieRepository: MovieDetailsRepository,
-        @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
+        @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): MovieDetailsUseCases {
         return MovieDetailsUseCases(
             getMovieDetailsUseCase = GetMovieDetailsUseCase(
-                movieDetailsRepository = movieRepository, defaultDispatcher = defaultDispatcher
+                movieDetailsRepository = movieRepository, coroutineDispatcher = coroutineDispatcher
             )
         )
     }

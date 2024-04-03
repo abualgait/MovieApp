@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.map
 
 class MovieRepositoryImpl(
     private val apiService: MoviesService,
-    private val defaultDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher
 ) : MovieRepository {
     override fun getTrendingMovies(): Flow<PagingData<Result>> {
         return Pager(
@@ -25,7 +25,7 @@ class MovieRepositoryImpl(
             pagingSourceFactory = {
                 MovieDataSource(
                     apiService = apiService,
-                    defaultDispatcher = defaultDispatcher
+                    coroutineDispatcher = coroutineDispatcher
                 )
             },
         ).flow.map {
