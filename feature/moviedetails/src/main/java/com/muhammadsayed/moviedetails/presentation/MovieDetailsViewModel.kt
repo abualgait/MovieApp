@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,7 +51,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private suspend fun getTrendingMovies(movieId: Int) {
         movieDetailsUseCases.getMovieDetailsUseCase(movieId).onEach {
-            _state.update { it }
+            _state.value = it
         }.launchIn(viewModelScope)
     }
 
