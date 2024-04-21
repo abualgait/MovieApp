@@ -1,7 +1,7 @@
 package com.muhammadsayed.moviedetails.data.repository
 
 import com.muhammadsayed.common.Response
-import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailUi
+import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailDomainModel
 import com.muhammadsayed.moviedetails.data.remote.MoviesDetailsService
 import com.muhammadsayed.moviedetails.domain.repository.MovieDetailsRepository
 import kotlinx.coroutines.flow.flow
@@ -14,7 +14,7 @@ class MovieDetailsRepositoryImpl(
 
         return@flow try {
             emit(Response.Loading)
-            val result = detailApiService.getMovieDetails(movieId = movieId).toMovieDetailUi()
+            val result = detailApiService.getMovieDetails(movieId = movieId).toMovieDetailDomainModel()
             emit(Response.Success(result))
         } catch (e: Exception) {
             emit(Response.Error(e))

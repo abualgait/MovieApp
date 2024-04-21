@@ -5,16 +5,13 @@
       <entry key="MovieDetailsScreensTest">
         <State />
       </entry>
+      <entry key="StartupBenchmarks">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="testNavigationToMovieWithId123456Details()">
-        <State />
-      </entry>
       <entry key="testNavigationToMovieWithId123456DetailsAndDisplayInfo()">
-        <State />
-      </entry>
-      <entry key="testNavigationToMovieWithId123456DetailsAndGoBack()">
         <State />
       </entry>
     </value>

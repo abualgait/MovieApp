@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.muhammadsayed.movies.MainDispatcherRule
-import com.muhammadsayed.movies.data.mapper.toMovieUiModel
+import com.muhammadsayed.movies.data.mapper.toMovieDomainModel
 import com.muhammadsayed.movies.data.repository.MovieRepositoryImpl
-import com.muhammadsayed.movies.domain.model.MovieUIModel
+import com.muhammadsayed.movies.domain.model.MovieDomainModel
 import com.muhammadsayed.movies.domain.usecase.GetTrendingMoviesUseCase
 import com.muhammadsayed.movies.domain.usecase.MoviesUseCases
 import com.muhammadsayed.movies.resultList
@@ -71,7 +71,7 @@ class MoviesViewModelTest {
 
         sut.state.test {
             val item = awaitItem()
-            val empty = PagingData.empty<MovieUIModel>()
+            val empty = PagingData.empty<MovieDomainModel>()
             item.map {
                 assertThat(it).isEqualTo(empty.map { model -> model })
             }
@@ -83,9 +83,9 @@ class MoviesViewModelTest {
     @Test
     fun testGetTrendingMovies_ReturnPagingData() = runTest {
 
-        val listUIModel = resultList.map { it.toMovieUiModel() }
+        val listUIModel = resultList.map { it.toMovieDomainModel() }
         val differ = AsyncPagingDataDiffer(
-            diffCallback = TestDiffCallback<MovieUIModel>(),
+            diffCallback = TestDiffCallback<MovieDomainModel>(),
             updateCallback = TestListCallback(),
             workerDispatcher = StandardTestDispatcher()
         )

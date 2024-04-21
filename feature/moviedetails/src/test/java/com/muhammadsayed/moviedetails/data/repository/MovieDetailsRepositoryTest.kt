@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.muhammadsayed.common.Response
 import com.muhammadsayed.moviedetails.MainDispatcherRule
-import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailUi
+import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailDomainModel
 import com.muhammadsayed.moviedetails.data.remote.MoviesDetailsService
 import com.muhammadsayed.moviedetails.domain.repository.MovieDetailsRepository
 import com.muhammadsayed.moviedetails.movieDetail
@@ -53,7 +53,7 @@ class MovieDetailsRepositoryTest {
             Truth.assertThat(firstItem).isEqualTo(Response.Loading)
 
             val secondItem = awaitItem()
-            Truth.assertThat(secondItem).isEqualTo(Response.Success(movieDetail.toMovieDetailUi()))
+            Truth.assertThat(secondItem).isEqualTo(Response.Success(movieDetail.toMovieDetailDomainModel()))
             awaitComplete()
         }
     }

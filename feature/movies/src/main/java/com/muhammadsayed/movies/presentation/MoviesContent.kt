@@ -69,13 +69,13 @@ import com.muhammadsayed.design.components.CircularProgress
 import com.muhammadsayed.design.components.ErrorDialog
 import com.muhammadsayed.design.components.LoadingPage
 import com.muhammadsayed.design.theme.YassirMovieAppTheme
-import com.muhammadsayed.movies.domain.model.MovieUIModel
+import com.muhammadsayed.movies.domain.model.MovieDomainModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesContent(
-    trendingPagingItem: LazyPagingItems<MovieUIModel>, onNavigateDetailScreen: (String) -> Unit
+    trendingPagingItem: LazyPagingItems<MovieDomainModel>, onNavigateDetailScreen: (String) -> Unit
 ) {
     var showDialog by remember { mutableStateOf(true) }
 
@@ -112,7 +112,8 @@ fun MoviesContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .nestedScroll(pullToRefreshState.nestedScrollConnection).semantics {
+            .nestedScroll(pullToRefreshState.nestedScrollConnection)
+            .semantics {
                 testTagsAsResourceId = true
             },
     ) {
@@ -239,7 +240,7 @@ fun ScrollToTopButton(onClick: () -> Unit) {
 
 @Composable
 fun TrendingMovieItem(
-    movie: MovieUIModel, modifier: Modifier = Modifier, onNavigateDetailScreen: (String) -> Unit
+    movie: MovieDomainModel, modifier: Modifier = Modifier, onNavigateDetailScreen: (String) -> Unit
 ) {
     Row(modifier = modifier
         .fillMaxWidth()
@@ -253,14 +254,14 @@ fun TrendingMovieItem(
 
         Column {
             Text(
-                text = movie.title,
+                text = movie.title ?: "",
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 2
             )
             Text(
-                text = movie.year.getYearFromDate() ?: "",
+                text = movie.year?.getYearFromDate() ?: "",
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Medium
@@ -271,7 +272,7 @@ fun TrendingMovieItem(
 }
 
 @Composable
-fun MovieImage(movie: MovieUIModel) {
+fun MovieImage(movie: MovieDomainModel) {
     Card(
         modifier = Modifier
             .width(100.dp)
@@ -318,7 +319,7 @@ fun MovieImage(movie: MovieUIModel) {
 @Preview
 @Composable
 private fun TrendingMovieItemPrev() {
-    val movieUIModel = MovieUIModel(1, "Movie", "", "2024")
+    val movieUIModel = MovieDomainModel(1, "Movie", "", "2024")
     YassirMovieAppTheme {
         TrendingMovieItem(movieUIModel) {
 

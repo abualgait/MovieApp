@@ -5,7 +5,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.muhammadsayed.common.Response
 import com.muhammadsayed.moviedetails.MainDispatcherRule
-import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailUi
+import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailDomainModel
 import com.muhammadsayed.moviedetails.data.repository.MovieDetailsRepositoryImpl
 import com.muhammadsayed.moviedetails.domain.usecase.GetMovieDetailsUseCase
 import com.muhammadsayed.moviedetails.domain.usecase.MovieDetailsUseCases
@@ -67,7 +67,7 @@ class MoviesViewModelTest {
             useCases.getMovieDetailsUseCase(MOVIE_ID)
         } returns flow {
             emit(Response.Loading)
-            emit(Response.Success(movieDetail.toMovieDetailUi()))
+            emit(Response.Success(movieDetail.toMovieDetailDomainModel()))
         }
 
         sut.onEvent(MovieDetailsEvents.GetMovieDetails(MOVIE_ID))
@@ -77,7 +77,7 @@ class MoviesViewModelTest {
             val firstItem = awaitItem()
             assertThat(firstItem).isEqualTo(Response.Loading)
 
-            assertThat(awaitItem()).isEqualTo(Response.Success(movieDetail.toMovieDetailUi()))
+            assertThat(awaitItem()).isEqualTo(Response.Success(movieDetail.toMovieDetailDomainModel()))
 
 
         }

@@ -55,11 +55,11 @@ import com.muhammadsayed.design.components.AppChip
 import com.muhammadsayed.design.components.CircularProgress
 import com.muhammadsayed.design.components.ErrorDialog
 import com.muhammadsayed.design.components.LoadingPage
-import com.muhammadsayed.moviedetails.domain.model.MovieDetailsUiModel
+import com.muhammadsayed.moviedetails.domain.model.MovieDetailsDomainModel
 
 @Composable
 fun MovieDetailsContent(
-    state: Response<MovieDetailsUiModel>,
+    state: Response<MovieDetailsDomainModel>,
     onNavigateBack: () -> Unit,
     onRetry: () -> Unit,
 ) {
@@ -99,14 +99,16 @@ fun MovieDetailsContent(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MovieDetails(
-    movie: MovieDetailsUiModel,
+    movie: MovieDetailsDomainModel,
     onNavigateBack: () -> Unit
 ) {
     Box {
 
-        LazyColumn(modifier = Modifier.semantics {
-            testTagsAsResourceId = true
-        }.testTag(DetailsList)) {
+        LazyColumn(modifier = Modifier
+            .semantics {
+                testTagsAsResourceId = true
+            }
+            .testTag(DetailsList)) {
             item {
                 Box(
                     modifier = Modifier
@@ -142,7 +144,7 @@ fun MovieDetails(
             item {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = movie.title,
+                        text = movie.title ?: "",
                         fontSize = 22.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.SemiBold,
@@ -150,7 +152,7 @@ fun MovieDetails(
                     )
                     Spacer(modifier = Modifier.size(5.dp))
                     Text(
-                        text = movie.releaseDate,
+                        text = movie.releaseDate ?: "",
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.Medium
@@ -158,7 +160,7 @@ fun MovieDetails(
                     Spacer(modifier = Modifier.size(10.dp))
 
                     FlowRow(modifier = Modifier.testTag(DetailsMovieGenres)) {
-                        movie.genres.forEach { genre ->
+                        movie.genres?.forEach { genre ->
                             AppChip(genre.name) {
 
                             }
@@ -166,7 +168,7 @@ fun MovieDetails(
                     }
                     Spacer(modifier = Modifier.size(10.dp))
                     Text(
-                        text = movie.overview,
+                        text = movie.overview ?: "",
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                         fontWeight = FontWeight.Medium

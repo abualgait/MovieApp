@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muhammadsayed.common.Response
 import com.muhammadsayed.common.util.Constants.MOVIE_ID
-import com.muhammadsayed.moviedetails.domain.model.MovieDetailsUiModel
+import com.muhammadsayed.moviedetails.domain.model.MovieDetailsDomainModel
 import com.muhammadsayed.moviedetails.domain.usecase.MovieDetailsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +23,8 @@ class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<Response<MovieDetailsUiModel>>(Response.Loading)
-    val state: StateFlow<Response<MovieDetailsUiModel>> = _state.stateIn(
+    private val _state = MutableStateFlow<Response<MovieDetailsDomainModel>>(Response.Loading)
+    val state: StateFlow<Response<MovieDetailsDomainModel>> = _state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         initialValue = Response.Loading,

@@ -1,10 +1,10 @@
 package com.muhammadsayed.moviedetails.data.mappers
 
 import com.muhammadsayed.moviedetails.data.model.MovieDetail
-import com.muhammadsayed.moviedetails.domain.model.MovieDetailsUiModel
+import com.muhammadsayed.moviedetails.domain.model.MovieDetailsDomainModel
 
-fun MovieDetail.toMovieDetailUi(): MovieDetailsUiModel {
-    return MovieDetailsUiModel(
+fun MovieDetail.toMovieDetailDomainModel(): MovieDetailsDomainModel {
+    return MovieDetailsDomainModel(
         backDropPath = backDropPath,
         id = id,
         originalLanguage = originalLanguage,

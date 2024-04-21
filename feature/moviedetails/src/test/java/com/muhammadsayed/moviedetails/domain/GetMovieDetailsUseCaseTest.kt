@@ -3,7 +3,7 @@ package com.muhammadsayed.moviedetails.domain
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.muhammadsayed.common.Response
-import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailUi
+import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailDomainModel
 import com.muhammadsayed.moviedetails.data.repository.MovieDetailsRepositoryImpl
 import com.muhammadsayed.moviedetails.domain.usecase.GetMovieDetailsUseCase
 import com.muhammadsayed.moviedetails.movieDetail
@@ -44,7 +44,7 @@ class GetMovieDetailsUseCaseTest {
     fun callGetMovieDetailsUseCase_ReturnSuccess() = runTest {
         coEvery {
             mockMovieRepository.getMovieDetailsById(MOVIE_ID)
-        } returns flowOf(Response.Loading, Response.Success(movieDetail.toMovieDetailUi()))
+        } returns flowOf(Response.Loading, Response.Success(movieDetail.toMovieDetailDomainModel()))
 
         val result = sut(MOVIE_ID)
         result.test {
@@ -52,7 +52,7 @@ class GetMovieDetailsUseCaseTest {
             Truth.assertThat(firstItem).isEqualTo(Response.Loading)
 
             val secondItem = awaitItem()
-            Truth.assertThat(secondItem).isEqualTo(Response.Success(movieDetail.toMovieDetailUi()))
+            Truth.assertThat(secondItem).isEqualTo(Response.Success(movieDetail.toMovieDetailDomainModel()))
             awaitComplete()
         }
     }

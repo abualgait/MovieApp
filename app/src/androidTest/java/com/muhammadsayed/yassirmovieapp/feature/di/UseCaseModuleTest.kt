@@ -12,13 +12,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModuleTest {
     @Provides
-    @Singleton
     fun provideMoviesUseCases(
     ): MoviesUseCases {
         return MoviesUseCases(
@@ -30,7 +28,6 @@ object UseCaseModuleTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Provides
-    @Singleton
     fun provideMovieDetailsUseCases(
     ): MovieDetailsUseCases {
         return MovieDetailsUseCases(

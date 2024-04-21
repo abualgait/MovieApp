@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.muhammadsayed.movies.data.mapper.toMovieUiModel
-import com.muhammadsayed.movies.domain.model.MovieUIModel
+import com.muhammadsayed.movies.data.mapper.toMovieDomainModel
+import com.muhammadsayed.movies.domain.model.MovieDomainModel
 import com.muhammadsayed.movies.domain.usecase.MoviesUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,8 +22,8 @@ class MoviesViewModel @Inject constructor(
     private val moviesUseCases: MoviesUseCases
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<PagingData<MovieUIModel>>(PagingData.empty())
-    val state: StateFlow<PagingData<MovieUIModel>> = _state.stateIn(
+    private val _state = MutableStateFlow<PagingData<MovieDomainModel>>(PagingData.empty())
+    val state: StateFlow<PagingData<MovieDomainModel>> = _state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         initialValue = PagingData.empty(),
@@ -44,7 +44,7 @@ class MoviesViewModel @Inject constructor(
 
     private fun getTrendingMovies() {
         moviesUseCases.getTrendingMoviesUseCase().cachedIn(viewModelScope).onEach {
-            _state.value = it.map { movie -> movie.toMovieUiModel() }
+            _state.value = it.map { movie -> movie.toMovieDomainModel() }
         }.launchIn(viewModelScope)
     }
 
