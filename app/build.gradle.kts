@@ -80,7 +80,9 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(project(":feature:movies"))
-    implementation(project(":feature:moviedetails"))
+    implementation(project(":feature:moviedetails:data"))
+    implementation(project(":feature:moviedetails:domain"))
+    implementation(project(":feature:moviedetails:presentation"))
     implementation(project(":navigation"))
     implementation(project(":design"))
     implementation(project(":common"))

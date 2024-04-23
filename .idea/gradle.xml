@@ -16,6 +16,9 @@
             <option value="$PROJECT_DIR$/design" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/moviedetails" />
+            <option value="$PROJECT_DIR$/feature/moviedetails/data" />
+            <option value="$PROJECT_DIR$/feature/moviedetails/domain" />
+            <option value="$PROJECT_DIR$/feature/moviedetails/presentation" />
             <option value="$PROJECT_DIR$/feature/movies" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/network" />

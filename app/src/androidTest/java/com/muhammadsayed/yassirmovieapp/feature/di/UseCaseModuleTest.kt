@@ -1,7 +1,7 @@
 package com.muhammadsayed.yassirmovieapp.feature.di
 
-import com.muhammadsayed.moviedetails.domain.usecase.GetMovieDetailsUseCase
-import com.muhammadsayed.moviedetails.domain.usecase.MovieDetailsUseCases
+import com.muhammadsayed.domain.usecase.GetMovieDetailsUseCase
+import com.muhammadsayed.domain.usecase.MovieDetailsUseCases
 import com.muhammadsayed.movies.domain.usecase.GetTrendingMoviesUseCase
 import com.muhammadsayed.movies.domain.usecase.MoviesUseCases
 import com.muhammadsayed.yassirmovieapp.testdoubles.FakeMovieDetailsRepository

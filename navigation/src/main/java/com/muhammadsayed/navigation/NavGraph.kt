@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.muhammadsayed.common.util.Screen
-import com.muhammadsayed.moviedetails.presentation.navigation.movieDetailsScreen
+import com.muhammadsayed.presentation.navigation.movieDetailsScreen
 import com.muhammadsayed.movies.presentation.navigation.moviesScreen
 
 private const val TRANSITION_DURATION = 400

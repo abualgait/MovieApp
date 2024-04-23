@@ -29,9 +29,9 @@ import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import com.muhammadsayed.moviedetails.data.di.NetworkModule as MovieDetailsNetworkModule
-import com.muhammadsayed.moviedetails.data.di.RepositoryModule as MovieDetailsRepositoryModule
-import com.muhammadsayed.moviedetails.data.di.UseCaseModule as MovieDetailsUseCaseModule
+import com.muhammadsayed.data.di.NetworkModule as MovieDetailsNetworkModule
+import com.muhammadsayed.data.di.RepositoryModule as MovieDetailsRepositoryModule
+import com.muhammadsayed.data.di.UseCaseModule as MovieDetailsUseCaseModule
 
 @HiltAndroidTest
 @UninstallModules(

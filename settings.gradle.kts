@@ -1,9 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":baselineprofile")
-
-
-include(":benchmark")
 
 
 pluginManagement {
@@ -37,4 +33,9 @@ include(":network")
 include(":feature")
 include(":feature:movies")
 include(":feature:moviedetails")
+include(":feature:moviedetails:presentation")
+include(":feature:moviedetails:domain")
+include(":feature:moviedetails:data")
+include(":baselineprofile")
+include(":benchmark")
 

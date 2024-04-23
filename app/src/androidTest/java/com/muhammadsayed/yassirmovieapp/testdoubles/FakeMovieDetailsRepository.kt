@@ -1,9 +1,9 @@
 package com.muhammadsayed.yassirmovieapp.testdoubles
 
 import com.muhammadsayed.common.Response
-import com.muhammadsayed.moviedetails.data.mappers.toMovieDetailDomainModel
-import com.muhammadsayed.moviedetails.domain.model.MovieDetailsDomainModel
-import com.muhammadsayed.moviedetails.domain.repository.MovieDetailsRepository
+import com.muhammadsayed.data.mappers.toMovieDetailDomainModel
+import com.muhammadsayed.domain.model.MovieDetailsDomainModel
+import com.muhammadsayed.domain.repository.MovieDetailsRepository
 import com.muhammadsayed.yassirmovieapp.movieDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

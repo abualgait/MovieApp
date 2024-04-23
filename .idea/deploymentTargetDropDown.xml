@@ -5,6 +5,12 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="feature.moviedetails.domain">
+        <State />
+      </entry>
+      <entry key="feature.moviedetails.presentation">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
