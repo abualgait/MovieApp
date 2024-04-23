@@ -4,12 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.muhammadsayed.common.Response
-import com.muhammadsayed.data.mappers.toMovieDetailDomainModel
+import com.muhammadsayed.data.mappers.toDomainModel
 import com.muhammadsayed.data.repository.MovieDetailsRepositoryImpl
 import com.muhammadsayed.domain.usecase.GetMovieDetailsUseCase
 import com.muhammadsayed.domain.usecase.MovieDetailsUseCases
 import com.muhammadsayed.presentation.MainDispatcherRule
-import com.muhammadsayed.presentation.MovieDetailsEvents
 import com.muhammadsayed.presentation.MovieDetailsViewModel
 import com.muhammadsayed.presentation.movieDetail
 import io.mockk.clearAllMocks
@@ -56,7 +55,7 @@ class MoviesViewModelTest {
 
     @Test
     fun `test initial state is Loading`() = runTest {
-        sut.state.test {
+        sut.viewState.test {
             val item = awaitItem()
             assertThat(item).isEqualTo(Response.Loading)
         }
@@ -69,17 +68,17 @@ class MoviesViewModelTest {
             useCases.getMovieDetailsUseCase(MOVIE_ID)
         } returns flow {
             emit(Response.Loading)
-            emit(Response.Success(movieDetail.toMovieDetailDomainModel()))
+            emit(Response.Success(movieDetail.toDomainModel()))
         }
 
         sut.onEvent(MovieDetailsEvents.GetMovieDetails(MOVIE_ID))
 
-        sut.state.test {
+        sut.viewState.test {
 
             val firstItem = awaitItem()
             assertThat(firstItem).isEqualTo(Response.Loading)
 
-            assertThat(awaitItem()).isEqualTo(Response.Success(movieDetail.toMovieDetailDomainModel()))
+            assertThat(awaitItem()).isEqualTo(Response.Success(movieDetail.toDomainModel()))
 
 
         }
@@ -98,7 +97,7 @@ class MoviesViewModelTest {
 
         sut.onEvent(MovieDetailsEvents.GetMovieDetails(MOVIE_ID))
 
-        sut.state.test {
+        sut.viewState.test {
 
             val firstItem = awaitItem()
             assertThat(firstItem).isEqualTo(Response.Loading)

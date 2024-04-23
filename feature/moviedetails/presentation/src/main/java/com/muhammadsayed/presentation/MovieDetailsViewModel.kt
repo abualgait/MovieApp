@@ -5,14 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muhammadsayed.common.Response
 import com.muhammadsayed.common.util.Constants.MOVIE_ID
-import com.muhammadsayed.domain.model.MovieDetailsDomainModel
 import com.muhammadsayed.domain.usecase.MovieDetailsUseCases
+import com.muhammadsayed.presentation.mappers.toUiModel
+import com.muhammadsayed.presentation.models.MovieDetailsViewStateUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,52 +27,42 @@ class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<Response<MovieDetailsDomainModel>>(Response.Loading)
-    val state: StateFlow<Response<MovieDetailsDomainModel>> = _state.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = Response.Loading,
-    )
+    private val movieId = MutableStateFlow<Int?>(null)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val viewState: StateFlow<MovieDetailsViewStateUiModel> =
+        movieId.filterNotNull().flatMapLatest { movieId ->
+            movieDetailsUseCases.getMovieDetailsUseCase(movieId).mapLatest {
+                movieId to it
+            }
+        }.mapLatest { (movieId, response) ->
+            when (response) {
+                is Response.Loading -> MovieDetailsViewStateUiModel.Loading
+                is Response.Error -> MovieDetailsViewStateUiModel.Error(
+                    message = response.exception.localizedMessage ?: "Something went wrong",
+                    movieId = movieId,
+                )
+
+                is Response.Success -> MovieDetailsViewStateUiModel.Success(
+                    movie = response.data.toUiModel()
+                )
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = MovieDetailsViewStateUiModel.Loading,
+        )
+
 
     init {
         savedStateHandle.get<Int>(MOVIE_ID)?.let {
-            onEvent(MovieDetailsEvents.GetMovieDetails(it))
-        }
-
-    }
-
-    fun onEvent(event: MovieDetailsEvents) {
-        when (event) {
-            is MovieDetailsEvents.GetMovieDetails -> {
-                viewModelScope.launch {
-                    getTrendingMovies(event.movieID)
-                }
-
+            viewModelScope.launch(Dispatchers.IO) {
+                movieId.value = it
             }
         }
-
     }
 
-    private suspend fun getTrendingMovies(movieId: Int) {
-        movieDetailsUseCases.getMovieDetailsUseCase(movieId).onEach {
-            _state.value = it
-        }.launchIn(viewModelScope)
+    fun onRetry(movieId: Int) {
+        // trigger a new fetch
     }
-
 }
-
-data class MovieDetailsUiModel(
-    val backDropPath: String,
-    val status: String,
-    val id: Int,
-    val originalLanguage: String,
-    val overview: String,
-    val releaseDate: String,
-    val title: String,
-    val genres: List<GenreUiModel>,
-)
-
-data class GenreUiModel(
-    val id: Int,
-    val name: String
-)

@@ -3,7 +3,7 @@ package com.muhammadsayed.presentation.repository
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.muhammadsayed.common.Response
-import com.muhammadsayed.data.mappers.toMovieDetailDomainModel
+import com.muhammadsayed.data.mappers.toDomainModel
 import com.muhammadsayed.data.remote.MoviesDetailsService
 import com.muhammadsayed.data.repository.MovieDetailsRepositoryImpl
 import com.muhammadsayed.domain.repository.MovieDetailsRepository
@@ -55,7 +55,7 @@ class MovieDetailsRepositoryTest {
 
             val secondItem = awaitItem()
             Truth.assertThat(secondItem)
-                .isEqualTo(Response.Success(movieDetail.toMovieDetailDomainModel()))
+                .isEqualTo(Response.Success(movieDetail.toDomainModel()))
             awaitComplete()
         }
     }

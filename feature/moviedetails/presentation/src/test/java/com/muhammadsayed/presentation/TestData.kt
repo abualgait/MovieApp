@@ -1,19 +1,15 @@
 package com.muhammadsayed.presentation
 
-import com.muhammadsayed.data.model.Genre
-import com.muhammadsayed.data.model.MovieDetail
-import com.muhammadsayed.data.model.ProductionCompany
-import com.muhammadsayed.data.model.ProductionCountry
-import com.muhammadsayed.data.model.SpokenLanguage
+import com.muhammadsayed.data.model.MovieDetailsApiModel
 
-val movieDetail = MovieDetail(
+val movieDetail = MovieDetailsApiModel(
     adult = false,
     backDropPath = "/abc123",
     belongsToCollection = null,
     budget = 10000000,
     genres = listOf(
-        Genre(id = 1, name = "Action"),
-        Genre(id = 2, name = "Adventure")
+        MovieDetailsGenreApiModel(id = 1, name = "Action"),
+        MovieDetailsGenreApiModel(id = 2, name = "Adventure")
     ),
     homepage = "https://www.example.com",
     id = 123456,

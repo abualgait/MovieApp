@@ -1,4 +1,4 @@
-package com.muhammadsayed.data.di
+package com.muhammadsayed.domain.di
 
 import com.muhammadsayed.common.di.IoDispatcher
 import com.muhammadsayed.domain.repository.MovieDetailsRepository
@@ -12,8 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UseCaseModule {
-
+class MovieDetailsDomainModule {
     @Provides
     fun provideMovieDetailsUseCases(
         movieRepository: MovieDetailsRepository,
@@ -27,5 +26,3 @@ object UseCaseModule {
         )
     }
 }
-
-

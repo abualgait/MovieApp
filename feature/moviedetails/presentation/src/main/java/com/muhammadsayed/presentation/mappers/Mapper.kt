@@ -1,26 +1,25 @@
 package com.muhammadsayed.presentation.mappers
 
-import com.muhammadsayed.domain.model.GenreDomainModel
 import com.muhammadsayed.domain.model.MovieDetailsDomainModel
-import com.muhammadsayed.presentation.GenreUiModel
-import com.muhammadsayed.presentation.MovieDetailsUiModel
+import com.muhammadsayed.domain.model.MovieDetailsGenreDomainModel
+import com.muhammadsayed.presentation.models.GenreUiModel
+import com.muhammadsayed.presentation.models.MovieDetailsUiModel
+import kotlinx.collections.immutable.toPersistentList
 
-fun MovieDetailsDomainModel.toMovieDetailUiModel(): MovieDetailsUiModel {
+fun MovieDetailsDomainModel.toUiModel(): MovieDetailsUiModel {
     return MovieDetailsUiModel(
         backDropPath = backDropPath,
         id = id,
-        originalLanguage = originalLanguage,
         overview = overview,
         releaseDate = releaseDate,
         title = title,
-        status = status,
-        genres = genres.map { it.toGenreUiModel() }
+        genres = genres.map { it.toUiModel() }.toPersistentList(),
     )
 }
 
-fun GenreDomainModel.toGenreUiModel(): GenreUiModel {
+fun MovieDetailsGenreDomainModel.toUiModel(): GenreUiModel {
     return GenreUiModel(
         id = id,
-        name = name
+        name = name,
     )
 }

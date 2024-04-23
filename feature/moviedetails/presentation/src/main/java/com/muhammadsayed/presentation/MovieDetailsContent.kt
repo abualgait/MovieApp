@@ -55,31 +55,35 @@ import com.muhammadsayed.design.components.AppChip
 import com.muhammadsayed.design.components.CircularProgress
 import com.muhammadsayed.design.components.ErrorDialog
 import com.muhammadsayed.design.components.LoadingPage
-import com.muhammadsayed.domain.model.MovieDetailsDomainModel
-import com.muhammadsayed.presentation.mappers.toMovieDetailUiModel
+import com.muhammadsayed.presentation.mappers.toUiModel
+import com.muhammadsayed.presentation.models.MovieDetailsUiModel
+import com.muhammadsayed.presentation.models.MovieDetailsViewStateUiModel
 
 @Composable
 fun MovieDetailsContent(
-    state: Response<MovieDetailsDomainModel>,
+    viewState: MovieDetailsViewStateUiModel,
     onNavigateBack: () -> Unit,
-    onRetry: () -> Unit,
+    onRetry: (Int) -> Unit,
 ) {
-    AnimatedContent(targetState = state, label = "Details Transition", transitionSpec = {
-        fadeIn(
-            animationSpec = tween(600),
-        ) togetherWith fadeOut(
-            animationSpec = tween(600)
-        )
-    }) {
+    AnimatedContent(
+        targetState = viewState,
+        label = "Details Transition",
+        transitionSpec = {
+            fadeIn(
+                animationSpec = tween(600),
+            ) togetherWith fadeOut(
+                animationSpec = tween(600)
+            )
+        }) {
         when (it) {
-            is Response.Error -> {
+            is MovieDetailsViewStateUiModel.Error -> {
                 ErrorDialog(
-                    errorMessage = it.exception.localizedMessage ?: "",
-                    onRetryClick = { onRetry() }) {
+                    errorMessage = it.message,
+                    onRetryClick = { onRetry(it.movieId) }) {
                 }
             }
 
-            Response.Loading -> {
+            MovieDetailsViewStateUiModel.Loading -> {
                 LoadingPage(
                     modifier = Modifier
                         .fillMaxSize()
@@ -87,11 +91,9 @@ fun MovieDetailsContent(
                 )
             }
 
-            is Response.Success -> MovieDetails(it.data.toMovieDetailUiModel()) {
+            is MovieDetailsViewStateUiModel.Success -> MovieDetails(it.movie) {
                 onNavigateBack()
             }
-
-            else -> {}
         }
     }
 }

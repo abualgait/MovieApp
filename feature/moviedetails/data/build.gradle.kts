@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.muhammadsayed.data"
+    namespace = "com.muhammadsayed.yassirmovieapp.features.moviedetails.data"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -32,12 +32,6 @@ android {
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
-    }
 }
 
 dependencies {
@@ -55,7 +49,6 @@ dependencies {
 
     // Dependency Injection - Hilt
     implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 
     //Retrofit

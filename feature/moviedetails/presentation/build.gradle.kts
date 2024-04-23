@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.muhammadsayed.presentation"
+    namespace = "com.muhammadsayed.yassirmovieapp.features.moviedetails.presentation"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     debugImplementation(libs.ui.tooling)
+    implementation(libs.kotlinx.collections)
 
 
     implementation(project(":common"))

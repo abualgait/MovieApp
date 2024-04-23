@@ -7,15 +7,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 
 @Composable
-fun MovieDetailsScreen(movieId: Int, onNavigateBack: () -> Unit) {
+fun MovieDetailsScreen(
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
+    onNavigateBack: () -> Unit,
+) {
 
-    val viewModel: MovieDetailsViewModel = hiltViewModel()
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.viewState.collectAsStateWithLifecycle()
 
     MovieDetailsContent(
-        state = state,
-        onNavigateBack = onNavigateBack, onRetry = {
-            viewModel.onEvent(MovieDetailsEvents.GetMovieDetails(movieId))
-        }
+        viewState = state,
+        onNavigateBack = onNavigateBack,
+        onRetry = viewModel::onRetry,
     )
 }

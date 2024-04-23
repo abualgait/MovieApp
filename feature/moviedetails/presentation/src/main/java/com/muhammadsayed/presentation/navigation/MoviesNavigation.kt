@@ -14,7 +14,7 @@ fun NavGraphBuilder.movieDetailsScreen(navController: NavController) {
         route = Screen.DetailScreen.route + "/{${MOVIE_ID}}",
         arguments = listOf(navArgument(MOVIE_ID) { type = NavType.IntType })
     ) {
-        MovieDetailsScreen(it.arguments?.getInt(MOVIE_ID) ?: -1,
+        MovieDetailsScreen(
             onNavigateBack = {
                 navController.popBackStack()
             }

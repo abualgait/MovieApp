@@ -1,26 +1,35 @@
 package com.muhammadsayed.data.mappers
 
-import com.muhammadsayed.data.model.Genre
-import com.muhammadsayed.data.model.MovieDetail
-import com.muhammadsayed.domain.model.GenreDomainModel
+import com.muhammadsayed.data.model.MovieDetailsApiModel
+import com.muhammadsayed.data.model.MovieDetailsGenreApiModel
 import com.muhammadsayed.domain.model.MovieDetailsDomainModel
+import com.muhammadsayed.domain.model.MovieDetailsDomainModel.Companion.DEFAULT_BACK_DROP_PATH
+import com.muhammadsayed.domain.model.MovieDetailsDomainModel.Companion.DEFAULT_OVERVIEW
+import com.muhammadsayed.domain.model.MovieDetailsDomainModel.Companion.DEFAULT_RELEASE_DATE
+import com.muhammadsayed.domain.model.MovieDetailsDomainModel.Companion.DEFAULT_TITLE
+import com.muhammadsayed.domain.model.MovieDetailsGenreDomainModel
 
-fun MovieDetail.toMovieDetailDomainModel(): MovieDetailsDomainModel {
-    return MovieDetailsDomainModel(
-        backDropPath = backDropPath,
-        id = id,
-        originalLanguage = originalLanguage,
-        overview = overview,
-        releaseDate = releaseDate,
-        title = title,
-        status = status,
-        genres = genres.map { it.toGenreDetailDomainModel() }
-    )
-}
+fun MovieDetailsApiModel.toDomainModel(): MovieDetailsDomainModel? =
+    if (this.id == null) {
+        null
+    } else {
+        MovieDetailsDomainModel(
+            id = id,
+            backDropPath = backDropPath ?: DEFAULT_BACK_DROP_PATH,
+            overview = overview ?: DEFAULT_OVERVIEW,
+            releaseDate = releaseDate ?: DEFAULT_RELEASE_DATE,
+            title = title ?: DEFAULT_TITLE,
+            genres = genres?.mapNotNull { it.toDomainModel() } ?: emptyList(),
+        )
+    }
 
-fun Genre.toGenreDetailDomainModel(): GenreDomainModel {
-    return GenreDomainModel(
-        id = id,
-        name = name
-    )
-}
+fun MovieDetailsGenreApiModel?.toDomainModel(): MovieDetailsGenreDomainModel? =
+    if (this?.id == null) {
+        // id is null, invalidating object as it is required
+        null
+    } else {
+        MovieDetailsGenreDomainModel(
+            id = id,
+            name = name ?: MovieDetailsGenreDomainModel.DEFAULT_NAME,
+        )
+    }
