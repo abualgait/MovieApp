@@ -1,8 +1,10 @@
 package com.muhammadsayed.movies.domain
 
 import androidx.paging.PagingData
+import androidx.paging.map
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import com.muhammadsayed.movies.data.mapper.toResultDomainModel
 import com.muhammadsayed.movies.domain.repository.MovieRepository
 import com.muhammadsayed.movies.domain.usecase.GetTrendingMoviesUseCase
 import com.muhammadsayed.movies.resultList
@@ -33,15 +35,15 @@ class GetTrendingMoviesUseCaseTest {
     @Test
     fun callGetTrendingMoviesUseCase_ReturnCorrectPagingData() = runTest {
         val pagingData = PagingData.from(resultList)
-
+        val data = pagingData.map { it.toResultDomainModel() }
         every {
             mockMovieRepository.getTrendingMovies()
-        } returns flowOf(pagingData)
+        } returns flowOf(data)
 
         val result = sut()
         result.test {
             val firstItem = awaitItem()
-            assertThat(firstItem).isEqualTo(pagingData)
+            assertThat(firstItem).isEqualTo(data)
             awaitComplete()
         }
     }

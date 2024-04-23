@@ -2,16 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="MovieDetailsScreensTest">
-        <State />
-      </entry>
       <entry key="StartupBenchmarks">
         <State />
       </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="testNavigationToMovieWithId123456DetailsAndDisplayInfo()">
         <State />
       </entry>
     </value>

@@ -6,8 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.filter
 import com.muhammadsayed.common.util.Constants
 import com.muhammadsayed.movies.data.data_soruce.MovieDataSource
-import com.muhammadsayed.movies.data.model.Result
 import com.muhammadsayed.movies.data.remote.MoviesService
+import com.muhammadsayed.movies.domain.model.ResultDomainModel
 import com.muhammadsayed.movies.domain.repository.MovieRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ class MovieRepositoryImpl(
     private val apiService: MoviesService,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : MovieRepository {
-    override fun getTrendingMovies(): Flow<PagingData<Result>> {
+    override fun getTrendingMovies(): Flow<PagingData<ResultDomainModel>> {
         return Pager(
             config = PagingConfig(
                 pageSize = Constants.PAGE_SIZE,

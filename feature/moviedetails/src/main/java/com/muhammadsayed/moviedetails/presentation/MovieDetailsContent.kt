@@ -96,7 +96,7 @@ fun MovieDetailsContent(
 }
 
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MovieDetails(
     movie: MovieDetailsDomainModel,
@@ -144,7 +144,7 @@ fun MovieDetails(
             item {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = movie.title ?: "",
+                        text = movie.title,
                         fontSize = 22.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.SemiBold,
@@ -152,7 +152,7 @@ fun MovieDetails(
                     )
                     Spacer(modifier = Modifier.size(5.dp))
                     Text(
-                        text = movie.releaseDate ?: "",
+                        text = movie.releaseDate,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.Medium
@@ -160,7 +160,7 @@ fun MovieDetails(
                     Spacer(modifier = Modifier.size(10.dp))
 
                     FlowRow(modifier = Modifier.testTag(DetailsMovieGenres)) {
-                        movie.genres?.forEach { genre ->
+                        movie.genres.forEach { genre ->
                             AppChip(genre.name) {
 
                             }
@@ -168,7 +168,7 @@ fun MovieDetails(
                     }
                     Spacer(modifier = Modifier.size(10.dp))
                     Text(
-                        text = movie.overview ?: "",
+                        text = movie.overview,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                         fontWeight = FontWeight.Medium

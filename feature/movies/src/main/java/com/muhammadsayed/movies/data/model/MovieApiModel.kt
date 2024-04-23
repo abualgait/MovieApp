@@ -5,11 +5,11 @@ import com.squareup.moshi.JsonClass
 
 
 @JsonClass(generateAdapter = true)
-data class Movie(
-    val page: Int,
-    val results: List<Result>,
+data class MovieApiModel(
+    val page: Int = -1,
+    val results: List<ResultApiModel> = emptyList(),
     @Json(name = "total_pages")
-    val totalPages: Int,
+    val totalPages: Int = -1,
     @Json(name = "total_results")
-    val totalResults: Int
+    val totalResults: Int = -1
 )

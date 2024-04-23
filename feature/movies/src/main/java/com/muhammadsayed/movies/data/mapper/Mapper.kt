@@ -1,11 +1,11 @@
 package com.muhammadsayed.movies.data.mapper
 
-import com.muhammadsayed.movies.data.model.Result
-import com.muhammadsayed.movies.domain.model.MovieDomainModel
+import com.muhammadsayed.movies.data.model.ResultApiModel
+import com.muhammadsayed.movies.domain.model.ResultDomainModel
 
 
-fun Result.toMovieDomainModel(): MovieDomainModel {
-    return MovieDomainModel(
+fun ResultApiModel.toResultDomainModel(): ResultDomainModel {
+    return ResultDomainModel(
         id = id,
         title = title,
         image = posterPath,

@@ -5,10 +5,10 @@ import com.muhammadsayed.moviedetails.data.model.MovieDetail
 import com.muhammadsayed.moviedetails.data.model.ProductionCompany
 import com.muhammadsayed.moviedetails.data.model.ProductionCountry
 import com.muhammadsayed.moviedetails.data.model.SpokenLanguage
-import com.muhammadsayed.movies.data.model.Result
+import com.muhammadsayed.movies.data.model.ResultApiModel
 
 val resultList = listOf(
-    Result(
+    ResultApiModel(
         adult = false,
         backdropPath = "/abc123",
         genreIds = listOf(28, 12, 80),
@@ -24,7 +24,7 @@ val resultList = listOf(
         voteAverage = 7.5,
         voteCount = 1000
     ),
-    Result(
+    ResultApiModel(
         adult = false,
         backdropPath = "/xyz789",
         genreIds = listOf(18, 36),

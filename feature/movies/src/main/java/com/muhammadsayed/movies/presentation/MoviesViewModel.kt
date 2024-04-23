@@ -1,13 +1,13 @@
 package com.muhammadsayed.movies.presentation
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.muhammadsayed.movies.data.mapper.toMovieDomainModel
-import com.muhammadsayed.movies.domain.model.MovieDomainModel
 import com.muhammadsayed.movies.domain.usecase.MoviesUseCases
+import com.muhammadsayed.movies.presentation.mapper.toResultUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,8 +22,8 @@ class MoviesViewModel @Inject constructor(
     private val moviesUseCases: MoviesUseCases
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<PagingData<MovieDomainModel>>(PagingData.empty())
-    val state: StateFlow<PagingData<MovieDomainModel>> = _state.stateIn(
+    private val _state = MutableStateFlow<PagingData<ResultUiModel>>(PagingData.empty())
+    val state: StateFlow<PagingData<ResultUiModel>> = _state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         initialValue = PagingData.empty(),
@@ -44,8 +44,16 @@ class MoviesViewModel @Inject constructor(
 
     private fun getTrendingMovies() {
         moviesUseCases.getTrendingMoviesUseCase().cachedIn(viewModelScope).onEach {
-            _state.value = it.map { movie -> movie.toMovieDomainModel() }
+            _state.value = it.map { movie -> movie.toResultUiModel() }
         }.launchIn(viewModelScope)
     }
 
 }
+
+@Immutable
+data class ResultUiModel(
+    val id: Int,
+    val title: String,
+    val image: String,
+    val year: String,
+)

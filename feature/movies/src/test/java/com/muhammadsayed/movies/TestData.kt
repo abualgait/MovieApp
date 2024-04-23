@@ -1,10 +1,10 @@
 package com.muhammadsayed.movies
 
-import com.muhammadsayed.movies.data.model.Movie
-import com.muhammadsayed.movies.data.model.Result
+import com.muhammadsayed.movies.data.model.MovieApiModel
+import com.muhammadsayed.movies.data.model.ResultApiModel
 
 val resultList = listOf(
-    Result(
+    ResultApiModel(
         adult = false,
         backdropPath = "/abc123",
         genreIds = listOf(28, 12, 80),
@@ -20,7 +20,7 @@ val resultList = listOf(
         voteAverage = 7.5,
         voteCount = 1000
     ),
-    Result(
+    ResultApiModel(
         adult = false,
         backdropPath = "/xyz789",
         genreIds = listOf(18, 36),
@@ -38,10 +38,10 @@ val resultList = listOf(
     )
 )
 
-val movieResponse = Movie(
+val movieResponse = MovieApiModel(
     page = 1,
     results = listOf(
-        Result(
+        ResultApiModel(
             adult = false,
             backdropPath = "/abc123",
             genreIds = listOf(28, 12, 80),
@@ -57,7 +57,7 @@ val movieResponse = Movie(
             voteAverage = 7.5,
             voteCount = 1000
         ),
-        Result(
+        ResultApiModel(
             adult = false,
             backdropPath = "/xyz789",
             genreIds = listOf(18, 36),

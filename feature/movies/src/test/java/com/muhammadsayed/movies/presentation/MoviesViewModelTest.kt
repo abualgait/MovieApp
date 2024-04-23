@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.muhammadsayed.movies.MainDispatcherRule
-import com.muhammadsayed.movies.data.mapper.toMovieDomainModel
+import com.muhammadsayed.movies.data.mapper.toResultDomainModel
 import com.muhammadsayed.movies.data.repository.MovieRepositoryImpl
-import com.muhammadsayed.movies.domain.model.MovieDomainModel
 import com.muhammadsayed.movies.domain.usecase.GetTrendingMoviesUseCase
 import com.muhammadsayed.movies.domain.usecase.MoviesUseCases
+import com.muhammadsayed.movies.presentation.mapper.toResultUiModel
 import com.muhammadsayed.movies.resultList
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -52,11 +52,11 @@ class MoviesViewModelTest {
         val pagingData = PagingData.from(resultList)
 
 
-        every { moviesUseCases.getTrendingMoviesUseCase() } returns flowOf(pagingData)
+        every { moviesUseCases.getTrendingMoviesUseCase() } returns flowOf(pagingData.map { it.toResultDomainModel() })
 
         mockkStatic(Log::class)
         every { Log.isLoggable(any(), any()) } returns false
-        every { mockMovieRepository.getTrendingMovies() } returns flowOf(pagingData)
+        every { mockMovieRepository.getTrendingMovies() } returns flowOf(pagingData.map { it.toResultDomainModel() })
         every {
             moviesUseCases.getTrendingMoviesUseCase
         } returns GetTrendingMoviesUseCase(mockMovieRepository)
@@ -71,7 +71,7 @@ class MoviesViewModelTest {
 
         sut.state.test {
             val item = awaitItem()
-            val empty = PagingData.empty<MovieDomainModel>()
+            val empty = PagingData.empty<ResultUiModel>()
             item.map {
                 assertThat(it).isEqualTo(empty.map { model -> model })
             }
@@ -83,9 +83,9 @@ class MoviesViewModelTest {
     @Test
     fun testGetTrendingMovies_ReturnPagingData() = runTest {
 
-        val listUIModel = resultList.map { it.toMovieDomainModel() }
+        val listUIModel = resultList.map { it.toResultDomainModel().toResultUiModel() }
         val differ = AsyncPagingDataDiffer(
-            diffCallback = TestDiffCallback<MovieDomainModel>(),
+            diffCallback = TestDiffCallback<ResultUiModel>(),
             updateCallback = TestListCallback(),
             workerDispatcher = StandardTestDispatcher()
         )
