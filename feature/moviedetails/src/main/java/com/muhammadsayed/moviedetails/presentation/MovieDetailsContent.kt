@@ -56,6 +56,7 @@ import com.muhammadsayed.design.components.CircularProgress
 import com.muhammadsayed.design.components.ErrorDialog
 import com.muhammadsayed.design.components.LoadingPage
 import com.muhammadsayed.moviedetails.domain.model.MovieDetailsDomainModel
+import com.muhammadsayed.moviedetails.presentation.mappers.toMovieDetailUiModel
 
 @Composable
 fun MovieDetailsContent(
@@ -86,7 +87,7 @@ fun MovieDetailsContent(
                 )
             }
 
-            is Response.Success -> MovieDetails(it.data) {
+            is Response.Success -> MovieDetails(it.data.toMovieDetailUiModel()) {
                 onNavigateBack()
             }
 
@@ -99,7 +100,7 @@ fun MovieDetailsContent(
 @OptIn(ExperimentalLayoutApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MovieDetails(
-    movie: MovieDetailsDomainModel,
+    movie: MovieDetailsUiModel,
     onNavigateBack: () -> Unit
 ) {
     Box {

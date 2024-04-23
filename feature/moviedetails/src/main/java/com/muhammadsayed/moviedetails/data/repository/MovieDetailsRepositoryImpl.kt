@@ -11,10 +11,10 @@ class MovieDetailsRepositoryImpl(
     private val detailApiService: MoviesDetailsService,
 ) : MovieDetailsRepository {
     override suspend fun getMovieDetailsById(movieId: Int) = flow {
-
-        return@flow try {
+        try {
             emit(Response.Loading)
-            val result = detailApiService.getMovieDetails(movieId = movieId).toMovieDetailDomainModel()
+            val result =
+                detailApiService.getMovieDetails(movieId = movieId).toMovieDetailDomainModel()
             emit(Response.Success(result))
         } catch (e: Exception) {
             emit(Response.Error(e))

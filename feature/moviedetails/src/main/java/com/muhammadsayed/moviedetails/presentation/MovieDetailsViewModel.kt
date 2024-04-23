@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muhammadsayed.common.Response
 import com.muhammadsayed.common.util.Constants.MOVIE_ID
+import com.muhammadsayed.moviedetails.data.model.Genre
 import com.muhammadsayed.moviedetails.domain.model.MovieDetailsDomainModel
 import com.muhammadsayed.moviedetails.domain.usecase.MovieDetailsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,3 +58,13 @@ class MovieDetailsViewModel @Inject constructor(
 
 }
 
+data class MovieDetailsUiModel(
+    val backDropPath: String,
+    val status: String,
+    val id: Int,
+    val originalLanguage: String,
+    val overview: String,
+    val releaseDate: String,
+    val title: String,
+    val genres: List<Genre>,
+)
