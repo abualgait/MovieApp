@@ -4,12 +4,15 @@ import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.muhammadsayed.common.Response
+import com.muhammadsayed.common.util.Constants.MOVIE_ID
 import com.muhammadsayed.data.mappers.toDomainModel
 import com.muhammadsayed.data.repository.MovieDetailsRepositoryImpl
 import com.muhammadsayed.domain.usecase.GetMovieDetailsUseCase
 import com.muhammadsayed.domain.usecase.MovieDetailsUseCases
 import com.muhammadsayed.presentation.MainDispatcherRule
 import com.muhammadsayed.presentation.MovieDetailsViewModel
+import com.muhammadsayed.presentation.mappers.toUiModel
+import com.muhammadsayed.presentation.models.MovieDetailsViewStateUiModel
 import com.muhammadsayed.presentation.movieDetail
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -37,9 +40,9 @@ class MoviesViewModelTest {
 
     private var movieDetailsRepository: MovieDetailsRepositoryImpl = mockk()
 
-    val MOVIE_ID = 1
+    private val movieId = 1
 
-    val savedStateHandle: SavedStateHandle = SavedStateHandle()
+    private val savedStateHandle: SavedStateHandle = SavedStateHandle(mapOf(MOVIE_ID to movieId))
 
     @Before
     fun setUp() {
@@ -55,32 +58,37 @@ class MoviesViewModelTest {
 
     @Test
     fun `test initial state is Loading`() = runTest {
+        coEvery {
+            useCases.getMovieDetailsUseCase(movieId)
+        } returns flow {
+            emit(Response.Loading)
+        }
         sut.viewState.test {
             val item = awaitItem()
-            assertThat(item).isEqualTo(Response.Loading)
+            assertThat(item).isEqualTo(MovieDetailsViewStateUiModel.Loading)
         }
     }
 
     @Test
     fun `test calling onEvent MovieDetailsEvents -  state is Success`() = runTest {
-
+        val domainModel = movieDetail.toDomainModel() ?: return@runTest
         coEvery {
-            useCases.getMovieDetailsUseCase(MOVIE_ID)
+            useCases.getMovieDetailsUseCase(movieId)
         } returns flow {
             emit(Response.Loading)
-            emit(Response.Success(movieDetail.toDomainModel()))
+            emit(Response.Success(domainModel))
         }
-
-        sut.onEvent(MovieDetailsEvents.GetMovieDetails(MOVIE_ID))
 
         sut.viewState.test {
 
             val firstItem = awaitItem()
-            assertThat(firstItem).isEqualTo(Response.Loading)
+            assertThat(firstItem).isEqualTo(MovieDetailsViewStateUiModel.Loading)
 
-            assertThat(awaitItem()).isEqualTo(Response.Success(movieDetail.toDomainModel()))
-
-
+            assertThat(awaitItem()).isEqualTo(
+                MovieDetailsViewStateUiModel.Success(
+                    movie = domainModel.toUiModel()
+                )
+            )
         }
     }
 
@@ -89,20 +97,23 @@ class MoviesViewModelTest {
 
         val exception = Exception("Error")
         coEvery {
-            useCases.getMovieDetailsUseCase(MOVIE_ID)
+            useCases.getMovieDetailsUseCase(movieId)
         } returns flow {
             emit(Response.Loading)
             emit(Response.Error(exception))
         }
 
-        sut.onEvent(MovieDetailsEvents.GetMovieDetails(MOVIE_ID))
-
         sut.viewState.test {
 
             val firstItem = awaitItem()
-            assertThat(firstItem).isEqualTo(Response.Loading)
+            assertThat(firstItem).isEqualTo(MovieDetailsViewStateUiModel.Loading)
 
-            assertThat(awaitItem()).isEqualTo(Response.Error(exception))
+            assertThat(awaitItem()).isEqualTo(
+                MovieDetailsViewStateUiModel.Error(
+                    message = exception.localizedMessage ?: "Something went wrong",
+                    movieId = movieId,
+                )
+            )
         }
     }
 

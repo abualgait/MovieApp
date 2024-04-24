@@ -44,7 +44,7 @@ class GetMovieDetailsUseCaseTest {
     fun callGetMovieDetailsUseCase_ReturnSuccess() = runTest {
         coEvery {
             mockMovieRepository.getMovieDetailsById(MOVIE_ID)
-        } returns flowOf(Response.Loading, Response.Success(movieDetail.toDomainModel()))
+        } returns flowOf(Response.Loading, Response.Success(movieDetail.toDomainModel()!!))
 
         val result = sut(MOVIE_ID)
         result.test {

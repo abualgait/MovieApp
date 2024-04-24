@@ -62,7 +62,9 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onRetry(movieId: Int) {
-        // trigger a new fetch
+    fun onRetry(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            movieId.value = id
+        }
     }
 }

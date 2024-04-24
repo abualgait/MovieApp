@@ -10,6 +10,6 @@ import kotlinx.coroutines.flow.flowOf
 
 class FakeMovieDetailsRepository : MovieDetailsRepository {
     override suspend fun getMovieDetailsById(movieId: Int): Flow<Response<MovieDetailsDomainModel>> {
-        return flowOf(Response.Success(movieDetail.toDomainModel()))
+        return flowOf(Response.Success(movieDetail.toDomainModel()!!))
     }
 }

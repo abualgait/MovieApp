@@ -29,6 +29,8 @@ import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import com.muhammadsayed.data.di.MovieDetailsDataModule as MovieDetailsNetworkModule
+import com.muhammadsayed.domain.di.MovieDetailsDomainModule as MovieDetailsRepositoryModule
 
 @HiltAndroidTest
 @UninstallModules(
@@ -36,8 +38,7 @@ import org.junit.Test
     NetworkModule::class,
     UseCaseModule::class,
     MovieDetailsRepositoryModule::class,
-    MovieDetailsNetworkModule::class,
-    MovieDetailsUseCaseModule::class
+    MovieDetailsNetworkModule::class
 
 )
 class MovieDetailsScreensTest {
@@ -108,21 +109,21 @@ class MovieDetailsScreensTest {
             .assertIsDisplayed()
 
         composeRule.onNodeWithTag(DetailsList)
-            .performScrollToNode(hasText(movieDetail.title))
+            .performScrollToNode(hasText(movieDetail.title ?: ""))
             .onChildren()
-            .filterToOne(hasText(movieDetail.title))
+            .filterToOne(hasText(movieDetail.title ?: ""))
             .assertIsDisplayed()
 
         composeRule.onNodeWithTag(DetailsList)
-            .performScrollToNode(hasText(movieDetail.overview))
+            .performScrollToNode(hasText(movieDetail.overview ?: ""))
             .onChildren()
-            .filterToOne(hasText(movieDetail.overview))
+            .filterToOne(hasText(movieDetail.overview ?: ""))
             .assertIsDisplayed()
 
         composeRule.onNodeWithTag(DetailsList)
-            .performScrollToNode(hasText(movieDetail.releaseDate))
+            .performScrollToNode(hasText(movieDetail.releaseDate ?: ""))
             .onChildren()
-            .filterToOne(hasText(movieDetail.releaseDate))
+            .filterToOne(hasText(movieDetail.releaseDate ?: ""))
             .assertIsDisplayed()
 
         composeRule.onNodeWithTag(DetailsList)
