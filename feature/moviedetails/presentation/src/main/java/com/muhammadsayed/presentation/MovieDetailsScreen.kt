@@ -12,11 +12,13 @@ fun MovieDetailsScreen(
     onNavigateBack: () -> Unit,
 ) {
 
-    val state by viewModel.viewState.collectAsStateWithLifecycle()
+    val state by viewModel.viewState.collectAsStateWithLifecycle(initialValue = null)
 
-    MovieDetailsContent(
-        viewState = state,
+    state?.let {
+        MovieDetailsContent(
+        viewState = it,
         onNavigateBack = onNavigateBack,
         onRetry = viewModel::onRetry,
     )
+    }
 }

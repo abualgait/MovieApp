@@ -11,9 +11,10 @@ import com.muhammadsayed.presentation.models.MovieDetailsViewStateUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.mapLatest
@@ -27,10 +28,11 @@ class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val movieId = MutableStateFlow<Int?>(null)
+    private val movieId =
+        MutableSharedFlow<Int?>(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val viewState: StateFlow<MovieDetailsViewStateUiModel> =
+    val viewState: SharedFlow<MovieDetailsViewStateUiModel> =
         movieId.filterNotNull().flatMapLatest { movieId ->
             movieDetailsUseCases.getMovieDetailsUseCase(movieId).mapLatest {
                 movieId to it
@@ -57,14 +59,14 @@ class MovieDetailsViewModel @Inject constructor(
     init {
         savedStateHandle.get<Int>(MOVIE_ID)?.let {
             viewModelScope.launch(Dispatchers.IO) {
-                movieId.value = it
+                movieId.emit(it)
             }
         }
     }
 
     fun onRetry(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            movieId.value = id
+            movieId.emit(id)
         }
     }
 }
